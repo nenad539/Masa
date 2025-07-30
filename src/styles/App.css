@@ -1,0 +1,1018 @@
+@import url('https://fonts.googleapis.com/css2?family=Parisienne:wght@400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary-pink: #FFD1DC;
+  --secondary-peach: #FFDFD3;
+  --accent-rose: #FEC8D8;
+  --text-dark: #2c1810;
+  --text-light: #FFF9FB;
+  --background-main: #fae7e6;
+  --background-gradient: linear-gradient(135deg, #fae7e6 0%, #FFD1DC 50%, #FFDFD3 100%);
+  --shadow-soft: 0 8px 32px rgba(255, 209, 220, 0.4);
+  --shadow-gentle: 0 4px 16px rgba(255, 209, 220, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--background-gradient);
+  min-height: 100vh;
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+.app {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Typography */
+.romantic-heading {
+  font-family: 'Parisienne', cursive;
+  font-size: clamp(2rem, 8vw, 4rem);
+  color: #8b4559;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(139, 69, 89, 0.3);
+}
+
+.elegant-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+/* Fade in animacija */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--background-gradient);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeOut 1s ease-in-out 3s forwards;
+}
+
+.loading-message {
+  font-family: 'Parisienne', cursive;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  color: #8b4559;
+  margin-bottom: 2rem;
+  text-align: center;
+  animation: messageSlide 3s ease-in-out infinite;
+  padding: 0 1rem;
+}
+
+.loading-bar-container {
+  width: 80%;
+  max-width: 300px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-pink), var(--accent-rose));
+  border-radius: 20px;
+  animation: loadingProgress 3s ease-out forwards;
+  transform: translateX(-100%);
+}
+
+.heartbeat-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 6rem;
+  color: var(--primary-pink);
+  opacity: 0.2;
+  animation: heartbeat 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Main Content */
+.main-content {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out 3.5s forwards;
+  padding: 2rem 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.love-section {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 2rem 1rem;
+}
+
+.love-button {
+  position: relative;
+  background: linear-gradient(45deg, var(--primary-pink), var(--accent-rose));
+  border: none;
+  border-radius: 50px;
+  padding: 1.5rem 3rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  margin: 2rem 0;
+  width: 90%;
+  max-width: 300px;
+}
+
+.love-button:hover:not(.disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 209, 220, 0.6);
+}
+
+.love-button:active:not(.disabled) {
+  transform: translateY(-2px);
+}
+
+.love-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(45deg, #ccc, #999);
+}
+
+.button-hearts {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.floating-heart {
+  position: absolute;
+  color: #8b4559;
+  animation: floatUp 2s ease-out forwards;
+  font-size: 1.5rem;
+}
+
+.cooldown-timer {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-top: 1rem;
+  opacity: 0.8;
+}
+
+.love-reason {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 209, 220, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 0.8rem auto;
+  max-width: 90%;
+  box-shadow: var(--shadow-gentle);
+  animation: slideInUp 0.6s ease-out;
+}
+
+.love-reason h3 {
+  font-family: 'Parisienne', cursive;
+  font-size: 1.8rem;
+  color: #8b4559;
+  margin-bottom: 1rem;
+}
+
+.love-reason p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+/* Media Gallery */
+.gallery-section {
+  margin: 3rem 0;
+  padding: 0 1rem;
+}
+
+.gallery-container {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 2rem;
+  box-shadow: var(--shadow-gentle);
+  border: 1px solid rgba(255, 209, 220, 0.3);
+}
+
+/* Updated Gallery Styles - potpuna podrška za sve slike */
+.gallery-section {
+  margin: 3rem 0;
+  padding: 0 1rem;
+}
+
+.gallery-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 2rem;
+  box-shadow: var(--shadow-gentle);
+  border: 1px solid rgba(255, 209, 220, 0.3);
+}
+
+.gallery-slideshow {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Fixed height da se sve slike prikazuju */
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f8f8f8;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease-in-out;
+  z-index: 1;
+}
+
+.gallery-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.gallery-slide img,
+.gallery-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block; /* Dodano da se force display */
+}
+
+.gallery-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(5px);
+}
+
+.gallery-nav {
+  background: white;
+  color: #2c1810;
+  border: 3px solid #8b4559;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+  font-size: 28px;
+  font-weight: 900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-nav:hover {
+  transform: scale(1.2);
+  background: #8b4559;
+  color: white;
+  border-color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-nav:active {
+  transform: scale(1.05);
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.gallery-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(139, 69, 89, 0.3);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border: none;
+  outline: none;
+}
+
+.gallery-dot.active {
+  background: #8b4559;
+  transform: scale(1.4);
+  box-shadow: 0 2px 8px rgba(139, 69, 89, 0.4);
+}
+
+.gallery-dot:hover {
+  background: rgba(139, 69, 89, 0.6);
+  transform: scale(1.2);
+}
+
+.heart-like {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: #8b4559;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.heart-like.liked {
+  color: #ff4757;
+  animation: heartPulse 0.6s ease;
+}
+
+.media-caption {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--text-dark);
+  opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes messageSlide {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-10px); opacity: 0.7; }
+}
+
+@keyframes loadingProgress {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* Confetti Animation */
+.confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #8b4559;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* WhatsApp Button */
+.whatsapp-button {
+  background: linear-gradient(45deg, #8b4559, #a0505f);
+  border: none;
+  border-radius: 50px;
+  padding: 1rem 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #FFF9FB;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(139, 69, 89, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.whatsapp-button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(139, 69, 89, 0.6);
+}
+
+.whatsapp-button:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.whatsapp-tip {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 1rem;
+  background: rgba(139, 69, 89, 0.95);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(139, 69, 89, 0.3);
+  animation: fadeInTip 0.3s ease-out;
+}
+
+.whatsapp-tip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  border: 8px solid transparent;
+  border-top-color: rgba(139, 69, 89, 0.95);
+}
+
+@keyframes fadeInTip {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 8px 32px rgba(139, 69, 89, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 12px 40px rgba(139, 69, 89, 0.7);
+    transform: scale(1.02);
+  }
+}
+
+/* Prebuilt Heart Background Animation */
+.bg_heart {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.heart {
+  position: absolute;
+  top: 110%;
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+.heart:before {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  display: block;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: 100%;
+}
+
+.heart:after {
+  position: absolute;
+  top: 0;
+  right: -50%;
+  display: block;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: 100%;
+}
+
+@keyframes love {
+  0% {
+    top: 110%;
+  }
+  100% {
+    top: -10%;
+  }
+}
+
+/* Background Heart Animations - POBOLJŠANO */
+.background-hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.floating-bg-heart {
+  position: absolute;
+  font-size: 2rem;
+  color: rgba(139, 69, 89, 0.2);
+  animation: floatUpBackground 15s linear infinite;
+  pointer-events: none;
+}
+
+.floating-bg-heart.enhanced {
+  color: rgba(139, 69, 89, 0.25);
+  filter: drop-shadow(0 0 10px rgba(139, 69, 89, 0.3));
+}
+
+.floating-bg-heart:nth-child(odd) {
+  animation-duration: 12s;
+  color: rgba(255, 209, 220, 0.25);
+  animation-name: floatUpBackgroundRotate;
+}
+
+.floating-bg-heart:nth-child(3n) {
+  animation-duration: 18s;
+  color: rgba(254, 200, 216, 0.2);
+  font-size: 1.5rem;
+  animation-name: floatUpBackgroundSway;
+}
+
+.floating-bg-heart:nth-child(4n) {
+  animation-duration: 20s;
+  color: rgba(139, 69, 89, 0.15);
+  font-size: 2.5rem;
+  animation-name: floatUpBackgroundPulse;
+}
+
+.floating-bg-heart:nth-child(5n) {
+  animation-duration: 14s;
+  color: rgba(255, 182, 193, 0.3);
+  animation-name: floatUpBackgroundZigzag;
+}
+
+@keyframes floatUpBackground {
+  0% {
+    transform: translateY(100vh) rotateZ(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) rotateZ(360deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpBackgroundRotate {
+  0% {
+    transform: translateY(100vh) rotateZ(0deg) scale(0.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) rotateZ(720deg) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpBackgroundSway {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0.7);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(75vh) translateX(20px) scale(0.9);
+  }
+  50% {
+    transform: translateY(50vh) translateX(-20px) scale(1.1);
+  }
+  75% {
+    transform: translateY(25vh) translateX(15px) scale(1.0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(0) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpBackgroundPulse {
+  0% {
+    transform: translateY(100vh) scale(0.8);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(75vh) scale(1.2);
+  }
+  50% {
+    transform: translateY(50vh) scale(0.9);
+  }
+  75% {
+    transform: translateY(25vh) scale(1.4);
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpBackgroundZigzag {
+  0% {
+    transform: translateY(100vh) translateX(0) rotateZ(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    transform: translateY(80vh) translateX(30px) rotateZ(45deg);
+  }
+  40% {
+    transform: translateY(60vh) translateX(-30px) rotateZ(135deg);
+  }
+  60% {
+    transform: translateY(40vh) translateX(25px) rotateZ(225deg);
+  }
+  80% {
+    transform: translateY(20vh) translateX(-25px) rotateZ(315deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(0) rotateZ(360deg);
+    opacity: 0;
+  }
+}
+
+/* Enhanced Sparkle Animation */
+.sparkle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #8b4559 0%, rgba(139, 69, 89, 0.8) 30%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: sparkleAnimation 4s linear infinite;
+}
+
+.sparkle.enhanced {
+  background: radial-gradient(circle, #8b4559 0%, #FFD1DC 40%, transparent 80%);
+  box-shadow: 0 0 10px rgba(139, 69, 89, 0.5);
+}
+
+@keyframes sparkleAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .love-button {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.1rem;
+    width: 85%;
+  }
+  
+  .love-reason {
+    padding: 1.5rem;
+    margin: 0.6rem auto;
+  }
+  
+  .gallery-container {
+    padding: 1.5rem;
+  }
+  
+  .romantic-heading {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+
+  .whatsapp-button {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1rem 0.5rem;
+  }
+  
+  .love-section {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .love-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: 90%;
+  }
+  
+  .gallery-container {
+    padding: 1rem;
+  }
+
+  .whatsapp-button {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .whatsapp-tip {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    white-space: normal;
+    max-width: 200px;
+  }
+
+  .floating-bg-heart {
+    font-size: 1.5rem;
+  }
+
+  .love-pulse {
+    font-size: 1.2rem;
+  }
+}
+
+/* Daily Counter Styles */
+.daily-counter {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  border: 2px solid rgba(139, 69, 89, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(139, 69, 89, 0.1);
+}
+
+.counter-text {
+  color: #2c1810;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.counter-number {
+  color: #8b4559;
+  font-family: 'Parisienne', cursive;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-shadow: 2px 2px 4px rgba(139, 69, 89, 0.3);
+  animation: counterPulse 2s ease-in-out infinite;
+}
+
+@keyframes counterPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Daily Message Styles */
+.daily-message-container {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 69, 89, 0.2);
+  box-shadow: 0 8px 32px rgba(139, 69, 89, 0.1);
+}
+
+.daily-message-title {
+  font-family: 'Parisienne', cursive;
+  font-size: 1.8rem;
+  color: #8b4559;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(139, 69, 89, 0.3);
+}
+
+.daily-message-content {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #2c1810;
+  line-height: 1.6;
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.daily-message-timer {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #8b4559;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(139, 69, 89, 0.1);
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* Desktop enhancements */
+@media (min-width: 1024px) {
+  .main-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .love-button {
+    max-width: 400px;
+  }
+  
+  .love-reason {
+    max-width: 600px;
+  }
+  
+  .gallery-slideshow {
+    max-width: 600px;
+  }
+  
+  .daily-counter {
+    max-width: 500px;
+    margin: 2rem auto;
+  }
+  
+  .daily-message-container {
+    max-width: 600px;
+    margin: 2rem auto;
+  }
+}
+
+/* Mobile optimization for counter */
+@media (max-width: 480px) {
+  .daily-counter {
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+  
+  .counter-text {
+    font-size: 1rem;
+  }
+  
+  .counter-number {
+    font-size: 2.5rem;
+  }
+  
+  .daily-message-container {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+  }
+  
+  .daily-message-title {
+    font-size: 1.5rem;
+  }
+  
+  .daily-message-content {
+    font-size: 1rem;
+  }
+  
+  .daily-message-timer {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
