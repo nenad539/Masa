@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { getCurrentUser, getUserSpecificData, setUserSpecificData } from '../services/auth';
 
 const DailyCounter = () => {
   const [count, setCount] = useState(0);
   const [lastResetDate, setLastResetDate] = useState(null);
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
-    // Učitaj trenutni broj iz localStorage
-    const savedCount = localStorage.getItem('dailyLoveCount');
-    const savedDate = localStorage.getItem('lastResetDate');
+    if (!currentUser) return; // Ne radi bez korisnika
+    
+    // Učitaj trenutni broj iz user-specific localStorage
+    const savedCount = getUserSpecificData('dailyLoveCount');
+    const savedDate = getUserSpecificData('lastResetDate');
     const today = new Date().toDateString();
 
     if (savedDate !== today) {
       // Novi dan - resetuj counter
       setCount(0);
-      localStorage.setItem('dailyLoveCount', '0');
-      localStorage.setItem('lastResetDate', today);
+      setUserSpecificData('dailyLoveCount', '0');
+      setUserSpecificData('lastResetDate', today);
       setLastResetDate(today);
     } else {
       // Isti dan - učitaj postojeći count
@@ -32,33 +36,42 @@ const DailyCounter = () => {
 
     const midnightTimer = setTimeout(() => {
       setCount(0);
-      localStorage.setItem('dailyLoveCount', '0');
-      localStorage.setItem('lastResetDate', new Date().toDateString());
+      setUserSpecificData('dailyLoveCount', '0');
+      setUserSpecificData('lastResetDate', new Date().toDateString());
       
       // Postavi novi timer za sledeći dan
       const nextMidnightTimer = setInterval(() => {
         setCount(0);
-        localStorage.setItem('dailyLoveCount', '0');
-        localStorage.setItem('lastResetDate', new Date().toDateString());
+        setUserSpecificData('dailyLoveCount', '0');
+        setUserSpecificData('lastResetDate', new Date().toDateString());
       }, 24 * 60 * 60 * 1000); // 24 sata
 
       return () => clearInterval(nextMidnightTimer);
     }, msUntilMidnight);
 
     return () => clearTimeout(midnightTimer);
-  }, []);
+  }, [currentUser]);
 
   // Funkcija za povećanje broja
   const incrementCount = () => {
+    if (!currentUser) return;
+    
     const newCount = count + 1;
     setCount(newCount);
-    localStorage.setItem('dailyLoveCount', newCount.toString());
+    setUserSpecificData('dailyLoveCount', newCount.toString());
   };
 
   // Eksportuj funkciju da je mogu koristiti drugi komponenti
   useEffect(() => {
     window.incrementDailyCounter = incrementCount;
-  }, [count]);
+    return () => {
+      window.incrementDailyCounter = null;
+    };
+  }, [count, currentUser]);
+
+  if (!currentUser) {
+    return null; // Ne prikazuj ako nema korisnika
+  }
 
   return (
     <div className="daily-counter">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackThemeChange } from '../firebase/userActivity.js';
 
 const RomanticThemes = () => {
   const [currentTheme, setCurrentTheme] = useState('default');
@@ -87,6 +88,9 @@ const RomanticThemes = () => {
     applyTheme(themes[themeKey]);
     localStorage.setItem('romanticTheme', themeKey);
     setIsOpen(false);
+    
+    // Prati promenu teme
+    trackThemeChange(themes[themeKey].name);
   };
 
   return (

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { loveReasons } from '../data/loveReasons.js';
 import TimeBasedGreeting from './TimeBasedGreeting.jsx';
+import { trackLoveButtonClick, trackCurrentLoveMessage, trackTimerStatus } from '../firebase/userActivity.js';
+import { getUserSpecificData, setUserSpecificData } from '../services/auth.js';
 
 const LoveButton = ({ onReasonRevealed }) => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -9,12 +11,15 @@ const LoveButton = ({ onReasonRevealed }) => {
   const [showHearts, setShowHearts] = useState(false);
 
   useEffect(() => {
-    // Check if there's a saved cooldown in localStorage
-    const savedCooldown = localStorage.getItem('loveCooldown');
-    const savedIndex = localStorage.getItem('currentReasonIndex');
+    // Check if there's a saved cooldown in localStorage (user-specific)
+    const savedCooldown = getUserSpecificData('loveCooldown');
+    const savedIndex = getUserSpecificData('currentReasonIndex');
     
     if (savedIndex) {
-      setCurrentReasonIndex(parseInt(savedIndex));
+      const index = parseInt(savedIndex);
+      setCurrentReasonIndex(index);
+      // Prati trenutnu poruku ljubavi
+      trackCurrentLoveMessage(index);
     }
 
     if (savedCooldown) {
@@ -22,8 +27,11 @@ const LoveButton = ({ onReasonRevealed }) => {
       const now = new Date();
       
       if (cooldownEnd > now) {
+        const remaining = Math.ceil((cooldownEnd - now) / 1000);
         setIsDisabled(true);
-        setTimeLeft(Math.ceil((cooldownEnd - now) / 1000));
+        setTimeLeft(remaining);
+        // Prati timer status
+        trackTimerStatus(remaining, true);
       }
     }
   }, []);
@@ -32,11 +40,19 @@ const LoveButton = ({ onReasonRevealed }) => {
     let timer;
     if (timeLeft > 0) {
       timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1);
+        const newTimeLeft = timeLeft - 1;
+        setTimeLeft(newTimeLeft);
+        // Ažuriraj timer status svakih 30 sekundi
+        if (newTimeLeft % 30 === 0) {
+          trackTimerStatus(newTimeLeft, true);
+        }
       }, 1000);
     } else if (isDisabled && timeLeft === 0) {
       setIsDisabled(false);
-      localStorage.removeItem('loveCooldown');
+      // Ukloni user-specific cooldown
+      setUserSpecificData('loveCooldown', '');
+      // Prati da je timer završen
+      trackTimerStatus(0, false);
     }
 
     return () => clearTimeout(timer);
@@ -58,10 +74,16 @@ const LoveButton = ({ onReasonRevealed }) => {
       window.incrementDailyCounter();
     }
 
-    // Update the reason index
+    // Update the reason index (user-specific)
     const nextIndex = (currentReasonIndex + 1) % loveReasons.length;
     setCurrentReasonIndex(nextIndex);
-    localStorage.setItem('currentReasonIndex', nextIndex.toString());
+    setUserSpecificData('currentReasonIndex', nextIndex.toString());
+
+    // Prati klik na dugme ljubavi i trenutnu poruku (user-specific)
+    const totalClicks = parseInt(getUserSpecificData('totalLoveClicks') || '0') + 1;
+    setUserSpecificData('totalLoveClicks', totalClicks.toString());
+    trackLoveButtonClick(totalClicks);
+    trackCurrentLoveMessage(nextIndex);
 
     // Check if all reasons have been shown
     if (nextIndex === 0 && currentReasonIndex > 0) {
@@ -69,12 +91,16 @@ const LoveButton = ({ onReasonRevealed }) => {
       triggerConfetti();
     }
 
-    // Set 3-hour cooldown
+    // Set 3-hour cooldown (user-specific)
     const cooldownEnd = new Date();
     cooldownEnd.setHours(cooldownEnd.getHours() + 3);
-    localStorage.setItem('loveCooldown', cooldownEnd.toISOString());
+    setUserSpecificData('loveCooldown', cooldownEnd.toISOString());
     setIsDisabled(true);
-    setTimeLeft(3 * 60 * 60); // 3 hours in seconds
+    const cooldownSeconds = 3 * 60 * 60;
+    setTimeLeft(cooldownSeconds); // 3 hours in seconds
+    
+    // Prati timer status
+    trackTimerStatus(cooldownSeconds, true);
   };
 
   const triggerConfetti = () => {

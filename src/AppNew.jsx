@@ -4,7 +4,7 @@ import LoginScreen from './components/LoginScreen';
 import LoveButton from './components/LoveButton';
 import LoveReason from './components/LoveReason';
 import MediaGalleryNew from './components/MediaGalleryNew';
-import WhatsAppButtonNew from './components/WhatsAppButtonNew';
+import WhatsAppButton from './components/WhatsAppButton';
 import PrebuiltBackgroundHearts from './components/PrebuiltBackgroundHearts';
 import DailyCounter from './components/DailyCounter';
 import DailyMessage from './components/DailyMessage';
@@ -30,8 +30,6 @@ function App() {
     const checkAuth = () => {
       const loggedIn = isAuthenticated();
       const user = getCurrentUser();
-      
-      console.log('App.jsx checkAuth - loggedIn:', loggedIn, 'user:', user);
       
       setIsLoggedIn(loggedIn);
       setCurrentUser(user);
@@ -71,7 +69,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* UVEK PRIKAŽI DEBUG INFO */}
       {isLoading ? (
         <LoadingScreen onComplete={() => setIsLoading(false)} />
       ) : !isLoggedIn ? (
@@ -125,7 +122,7 @@ function App() {
                 fontSize: 'clamp(1.2rem, 4vw, 2rem)', 
                 marginBottom: '1rem' 
               }}>
-                Moja draga {currentUser?.displayName === 'Nenad' ? 'Mašo' : 'Mašo'} 💕
+                Moja draga {currentUser?.displayName === 'Nenad 💙' ? 'Mašo' : 'Nenede'} 💕
               </h2>
               <p className="elegant-text" style={{ 
                 fontSize: '1.1rem', 
@@ -133,19 +130,13 @@ function App() {
                 maxWidth: '600px',
                 margin: '0 auto'
               }}>
-                {currentUser?.displayName === 'Nenad' ? 
+                {currentUser?.displayName === 'Nenad 💙' ? 
                   'Svaki dan se sve više zaljubljujem u tebe. Kilometri između nas nisu ništa u odnosu na ljubav u mom srcu. Ti si moja sreća, moja radost i moja zauvijek. Jedva čekam dan kada će udaljenost biti samo uspomena, a ja ću te moći zagrljati svaki dan.' :
-                  'Svaki dan se sve više zaljubljujem u tebe. Kilometri između nas nisu ništa u odnosu na ljubav u mom srcu. Ti si moja sreća, moja radost i moja zauvijek. Jedva čekam dan kada će udaljenost biti samo uspomena, a ja ću te moći zagrljati svaki dan.'
+                  'Hvala ti što postojiš u mom životu. Svaki trenutak koji provodimo zajedno je dragocen. Ti si razlog mog osmeha i moja najveća ljubav. Volim te beskrajno!'
                 }
                 <br/><br/>
-                {currentUser?.displayName === 'Nenad' ? 
-                  'Za najlepšu devojku na svetu!' : 
-                  'Za najlepšu devojku na svetu!'
-                }
+                {currentUser?.displayName === 'Nenad 💙' ? '-Nenad🤎' : '-Tvoja Masa💖'}
               </p>
-              <small style={{ fontSize: '0.8rem', color: '#8b4559' }}>
-                {currentUser?.displayName === 'Nenad' ? '-Nenad🤎' : '-Nenad🤎'}
-              </small>
               <div style={{ 
                 fontSize: '2rem', 
                 marginTop: '1.5rem',
@@ -156,7 +147,8 @@ function App() {
             </div>
           </div>
           
-          <WhatsAppButtonNew />
+          {/* WhatsApp dugme (samo za Nenada) */}
+          <WhatsAppButton />
         </>
       )}
     </div>

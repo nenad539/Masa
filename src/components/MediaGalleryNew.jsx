@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { trackMediaGallery } from '../firebase/userActivity.js';
+import { getUserSpecificData, setUserSpecificData } from '../services/auth.js';
 
 const MediaGalleryNew = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [likedMedia, setLikedMedia] = useState(new Set());
   const [imagesLoaded, setImagesLoaded] = useState(new Set());
 
-  // Jednostavni niz slika i video fajlova
+  // Jednostavni niz slika i video fajlova - proverio sam da ovi fajlovi postoje
   const mediaFiles = [
-    { src: '1.jpg', type: 'image', caption: 'Naša prva večernja magija 💖' },
-    { src: '2.jpg', type: 'image', caption: 'Ti si moja zvezda u noći ⭐' },
-    { src: '3.jpg', type: 'image', caption: 'Svaki trenutak s tobom je poseban ✨' },
-    { src: '4.jpg', type: 'image', caption: 'Moja prekrasna ljubav 🌹' },
-    { src: '5.jpg', type: 'image', caption: 'Naša prva digitalna uspomena 📱' },
-    { src: '6.jpg', type: 'image', caption: 'Ti si moja radost 😊' },
-    { src: '7.jpg', type: 'image', caption: 'Osmeh koji pokreće moj dan ☀️' },
-    { src: '8.jpg', type: 'image', caption: 'Moje srce kuca samo za tebe 💓' },
-    { src: '9.jpg', type: 'image', caption: 'Ti si moj celi svet 🌍' },
-    { src: '10.jpg', type: 'image', caption: 'Volim tvoj pogled 👀' },
-    { src: '11.jpg', type: 'image', caption: 'Bez tebe ništa nije isto 💔' },
-    { src: '12.jpg', type: 'image', caption: 'Ti si moja sreća 🍀' },
-    { src: '13.jpg', type: 'image', caption: 'Moja ljubav je beskrajna ♾️' },
-    { src: '14.jpg', type: 'image', caption: 'Ti si razlog mog smeha 😄' },
-    { src: '15.jpg', type: 'image', caption: 'Moja zauvek i uvek 💍' },
-    { src: '16.mp4', type: 'video', caption: 'Naš posebni trenutak koji ću čuvati zauvek 🎥' }
+    { src: '/Masa/media/1.jpg', type: 'image', caption: 'Naša prva večernja magija 💖' },
+    { src: '/Masa/media/2.jpg', type: 'image', caption: 'Ti si moja zvezda u noći ⭐' },
+    { src: '/Masa/media/3.jpg', type: 'image', caption: 'Svaki trenutak s tobom je poseban ✨' },
+    { src: '/Masa/media/4.jpg', type: 'image', caption: 'Moja prekrasna ljubav 🌹' },
+    { src: '/Masa/media/5.jpg', type: 'image', caption: 'Naša prva digitalna uspomena 📱' },
+    { src: '/Masa/media/6.jpg', type: 'image', caption: 'Ti si moja radost 😊' },
+    { src: '/Masa/media/7.jpg', type: 'image', caption: 'Osmeh koji pokreće moj dan ☀️' },
+    { src: '/Masa/media/8.jpg', type: 'image', caption: 'Moje srce kuca samo za tebe 💓' },
+    { src: '/Masa/media/9.jpg', type: 'image', caption: 'Ti si moj celi svet 🌍' },
+    { src: '/Masa/media/10.jpg', type: 'image', caption: 'Volim tvoj pogled 👀' },
+    { src: '/Masa/media/11.jpg', type: 'image', caption: 'Bez tebe ništa nije isto 💔' },
+    { src: '/Masa/media/12.jpg', type: 'image', caption: 'Ti si moja sreća 🍀' },
+    { src: '/Masa/media/13.jpg', type: 'image', caption: 'Moja ljubav je beskrajna ♾️' },
+    { src: '/Masa/media/14.jpg', type: 'image', caption: 'Ti si razlog mog smeha 😄' },
+    { src: '/Masa/media/15.jpg', type: 'image', caption: 'Moja zauvek i uvek 💍' },
+    { src: '/Masa/media/16.mp4', type: 'video', caption: 'Naš posebni trenutak koji ću čuvati zauvek 🎥' }
   ];
 
   useEffect(() => {
-    const savedLikes = localStorage.getItem('likedMedia');
+    // Učitaj user-specific liked media
+    const savedLikes = getUserSpecificData('likedMedia');
     if (savedLikes) {
       setLikedMedia(new Set(JSON.parse(savedLikes)));
     }
@@ -34,15 +37,20 @@ const MediaGalleryNew = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % mediaFiles.length);
+    const newSlide = (currentSlide + 1) % mediaFiles.length;
+    setCurrentSlide(newSlide);
+    trackMediaGallery(newSlide, mediaFiles.length, likedMedia);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + mediaFiles.length) % mediaFiles.length);
+    const newSlide = (currentSlide - 1 + mediaFiles.length) % mediaFiles.length;
+    setCurrentSlide(newSlide);
+    trackMediaGallery(newSlide, mediaFiles.length, likedMedia);
   };
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
+    trackMediaGallery(index, mediaFiles.length, likedMedia);
   };
 
   const toggleLike = (index) => {
@@ -53,7 +61,14 @@ const MediaGalleryNew = () => {
       newLikedMedia.add(index);
     }
     setLikedMedia(newLikedMedia);
-    localStorage.setItem('likedMedia', JSON.stringify(Array.from(newLikedMedia)));
+    // Sačuvaj user-specific liked media
+    setUserSpecificData('likedMedia', JSON.stringify(Array.from(newLikedMedia)));
+    
+    // Prati promenu u sviđanjima
+    trackMediaGallery(currentSlide, mediaFiles.length, newLikedMedia);
+    
+    // Trigger custom event da Dashboard zna da se ažurira
+    window.dispatchEvent(new CustomEvent('statsUpdated'));
   };
 
   const handleImageLoad = (index) => {
@@ -85,7 +100,7 @@ const MediaGalleryNew = () => {
             >
               {file.type === 'image' ? (
                 <img
-                  src={`/media/${file.src}`}
+                  src={file.src}
                   alt={file.caption}
                   onLoad={() => handleImageLoad(index)}
                   onError={() => handleImageError(index)}
@@ -99,7 +114,7 @@ const MediaGalleryNew = () => {
                 />
               ) : (
                 <video
-                  src={`/media/${file.src}`}
+                  src={file.src}
                   controls
                   muted
                   onLoadedData={() => handleImageLoad(index)}
