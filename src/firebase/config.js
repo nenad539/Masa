@@ -1,30 +1,38 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB0WAR0vq3mKWn6nocG1H9tWhvn3ykgU3A",
-  authDomain: "sajt-beec2.firebaseapp.com",
-  projectId: "sajt-beec2",
-  storageBucket: "sajt-beec2.firebasestorage.app",
-  messagingSenderId: "681652496609",
-  appId: "1:681652496609:web:379fc5228a54bbdfd8efa0",
-  measurementId: "G-VJMV7H8GDC"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyB0WAR0vq3mKWn6nocG1H9tWhvn3ykgU3A",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "sajt-beec2.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "sajt-beec2",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "sajt-beec2.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "681652496609",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:681652496609:web:379fc5228a54bbdfd8efa0",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-VJMV7H8GDC"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firestore
-export const db = getFirestore(app);
-
-// Initialize Analytics (only in production)
+// Initialize Firebase only on client side
+let app = null;
+let db = null;
 let analytics = null;
-if (typeof window !== "undefined" && !window.location.hostname.includes('localhost')) {
-  analytics = getAnalytics(app);
+
+if (typeof window !== "undefined") {
+  // Client-side only initialization
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  
+  // Initialize Analytics only in production and client-side
+  if (!window.location.hostname.includes('localhost')) {
+    try {
+      analytics = getAnalytics(app);
+    } catch (error) {
+      console.warn('Analytics initialization failed:', error);
+    }
+  }
 }
 
-export { analytics };
+export { db, analytics };
 export default app;

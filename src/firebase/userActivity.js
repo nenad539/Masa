@@ -15,8 +15,14 @@ import {
 import { db } from './config';
 import { getCurrentUser } from '../services/auth';
 
+// Check if Firebase is available
+const isFirebaseAvailable = () => {
+  return typeof window !== "undefined" && db !== null;
+};
+
 // Generiši jedinstveni ID za korisnika
 const generateUserId = () => {
+  if (!isFirebaseAvailable()) return null;
   const currentUser = getCurrentUser();
   if (currentUser) {
     return currentUser.id; // Koristi auth user ID
@@ -36,6 +42,11 @@ export const getUserId = () => generateUserId();
 
 // Ažuriraj aktivnost korisnika
 export const updateUserActivity = async (activity) => {
+  if (!isFirebaseAvailable()) {
+    console.warn('Firebase not available, skipping user activity update');
+    return;
+  }
+  
   try {
     const userId = getUserId();
     const currentUser = getCurrentUser();
@@ -62,6 +73,7 @@ export const updateUserActivity = async (activity) => {
 
 // Praćenje trenutne poruke ljubavi
 export const trackCurrentLoveMessage = async (messageIndex) => {
+  if (!isFirebaseAvailable()) return;
   await updateUserActivity({
     currentLoveMessage: messageIndex,
     lastMessageTime: serverTimestamp()
@@ -70,6 +82,8 @@ export const trackCurrentLoveMessage = async (messageIndex) => {
 
 // Praćenje klika na dugme ljubavi
 export const trackLoveButtonClick = async (clickCount) => {
+  if (!isFirebaseAvailable()) return;
+  
   const userId = getUserId();
   const userRef = doc(db, 'users', userId);
   
@@ -127,6 +141,11 @@ export const trackThemeChange = async (themeName) => {
 
 // Dobijanje statistika uživo
 export const subscribeToUserStats = (callback) => {
+  if (!isFirebaseAvailable()) {
+    callback([]);
+    return () => {}; // Return empty unsubscribe function
+  }
+  
   const usersRef = collection(db, 'users');
   const q = query(usersRef, orderBy('lastActivity', 'desc'), limit(10));
   
@@ -141,6 +160,11 @@ export const subscribeToUserStats = (callback) => {
 
 // Dobijanje broja aktivnih korisnika
 export const subscribeToActiveUsers = (callback) => {
+  if (!isFirebaseAvailable()) {
+    callback(0);
+    return () => {}; // Return empty unsubscribe function
+  }
+  
   const usersRef = collection(db, 'users');
   const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
   
