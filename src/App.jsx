@@ -11,6 +11,7 @@ import DailyMessage from './components/DailyMessage';
 import RelationshipCounter from './components/RelationshipCounter';
 import RomanticThemes from './components/RomanticThemes';
 import Dashboard from './components/Dashboard';
+import TimeBasedGreeting from './components/TimeBasedGreeting';
 import { useUserActivityTracking } from './hooks/useUserActivityTracking';
 import { isAuthenticated, getCurrentUser } from './services/auth';
 import './styles/App.css';
@@ -89,6 +90,9 @@ function App() {
           
           {/* Glavni sadržaj */}
           <div className="main-content">
+            {/* Time-based greeting */}
+            <TimeBasedGreeting />
+            
             {/* Daily Counter */}
             <DailyCounter />
             
@@ -104,8 +108,7 @@ function App() {
             {/* Love Reason Display */}
             {showReason && currentReason && (
               <LoveReason 
-                reason={currentReason} 
-                onClose={() => setShowReason(false)} 
+                reason={currentReason}
               />
             )}
             

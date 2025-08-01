@@ -11,6 +11,11 @@ const LoveButton = ({ onReasonRevealed }) => {
   const [showHearts, setShowHearts] = useState(false);
 
   useEffect(() => {
+    // Reset any existing cooldown on component mount
+    setUserSpecificData('loveCooldown', '');
+    setIsDisabled(false);
+    setTimeLeft(0);
+    
     // Check if there's a saved cooldown in localStorage (user-specific)
     const savedCooldown = getUserSpecificData('loveCooldown');
     const savedIndex = getUserSpecificData('currentReasonIndex');
@@ -36,6 +41,7 @@ const LoveButton = ({ onReasonRevealed }) => {
     }
   }, []);
 
+  // Timer countdown effect
   useEffect(() => {
     let timer;
     if (timeLeft > 0) {

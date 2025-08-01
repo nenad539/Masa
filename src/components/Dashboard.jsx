@@ -17,6 +17,23 @@ const Dashboard = ({ onLogout }) => {
   const [likedMedia, setLikedMedia] = useState(0);
   const [partnerLikedMedia, setPartnerLikedMedia] = useState(0);
   const [notifications, setNotifications] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isSmallMobile, setIsSmallMobile] = useState(window.innerWidth <= 480);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showDashboard, setShowDashboard] = useState(false);
+
+  // Handle window resize for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      setWindowWidth(newWidth);
+      setIsMobile(newWidth <= 768);
+      setIsSmallMobile(newWidth <= 480);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const moods = [
     { emoji: '😊', label: 'Srećan/na' },
@@ -141,7 +158,7 @@ const Dashboard = ({ onLogout }) => {
     container: {
       position: 'fixed',
       top: '20px',
-      left: '90px', // Pomereno desno da ne koliduje sa temama
+      left: isMobile ? '20px' : '90px',
       zIndex: 1000,
       fontFamily: '"Montserrat", sans-serif'
     },
@@ -150,9 +167,9 @@ const Dashboard = ({ onLogout }) => {
       color: 'white',
       border: 'none',
       borderRadius: '50%',
-      width: '60px',
-      height: '60px',
-      fontSize: '1.5rem',
+      width: isMobile ? '50px' : '60px',
+      height: isMobile ? '50px' : '60px',
+      fontSize: isMobile ? '1.2rem' : '1.5rem',
       cursor: 'pointer',
       boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
       transition: 'all 0.3s ease',
@@ -162,14 +179,15 @@ const Dashboard = ({ onLogout }) => {
     },
     dashboard: {
       position: 'absolute',
-      top: '70px',
-      left: '0',
-      width: '380px',
+      top: isMobile ? '60px' : '70px',
+      left: isMobile ? '-10px' : '0',
+      width: isMobile ? 'calc(100vw - 40px)' : '380px',
+      maxWidth: isMobile ? '350px' : '380px',
       maxHeight: '80vh',
       overflowY: 'auto',
       background: 'rgba(255, 255, 255, 0.98)',
       borderRadius: '20px',
-      padding: '25px',
+      padding: isMobile ? '15px' : '25px',
       boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
       border: '2px solid rgba(139, 69, 89, 0.2)'
     },
@@ -181,34 +199,36 @@ const Dashboard = ({ onLogout }) => {
     },
     userInfo: {
       display: 'flex',
+      flexDirection: isSmallMobile ? 'column' : 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+      gap: isSmallMobile ? '10px' : '0',
       background: 'linear-gradient(135deg, #fae7e6, #FFD1DC)',
-      padding: '15px',
+      padding: isMobile ? '12px' : '15px',
       borderRadius: '15px',
       marginBottom: '20px'
     },
     statsGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr',
+      gridTemplateColumns: isSmallMobile ? '1fr' : '1fr 1fr',
       gap: '15px',
       marginBottom: '20px'
     },
     statCard: {
       background: '#f8f9fa',
-      padding: '15px',
+      padding: isMobile ? '12px' : '15px',
       borderRadius: '12px',
       border: '1px solid #e0e0e0'
     },
     moodSection: {
       background: 'linear-gradient(135deg, #e8f5e8, #f0fff0)',
-      padding: '15px',
+      padding: isMobile ? '12px' : '15px',
       borderRadius: '15px',
       marginBottom: '15px'
     },
     moodSelector: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(5, 1fr)',
+      gridTemplateColumns: isSmallMobile ? 'repeat(4, 1fr)' : 'repeat(5, 1fr)',
       gap: '8px',
       marginTop: '10px'
     },
@@ -216,9 +236,9 @@ const Dashboard = ({ onLogout }) => {
       background: 'white',
       border: '2px solid #e0e0e0',
       borderRadius: '8px',
-      padding: '8px',
+      padding: isMobile ? '6px' : '8px',
       cursor: 'pointer',
-      fontSize: '1.2rem',
+      fontSize: isMobile ? '1rem' : '1.2rem',
       transition: 'all 0.2s ease'
     },
     heartButton: {
@@ -226,9 +246,9 @@ const Dashboard = ({ onLogout }) => {
       color: 'white',
       border: 'none',
       borderRadius: '15px',
-      padding: '15px',
+      padding: isMobile ? '12px' : '15px',
       width: '100%',
-      fontSize: '1.1rem',
+      fontSize: isMobile ? '1rem' : '1.1rem',
       cursor: 'pointer',
       marginBottom: '15px',
       transition: 'all 0.3s ease',
@@ -242,15 +262,15 @@ const Dashboard = ({ onLogout }) => {
       color: 'white',
       border: 'none',
       borderRadius: '10px',
-      padding: '10px 15px',
+      padding: isMobile ? '8px 12px' : '10px 15px',
       cursor: 'pointer',
       width: '100%',
-      fontSize: '0.9rem'
+      fontSize: window.innerWidth <= 768 ? '0.8rem' : '0.9rem'
     },
     notifications: {
       position: 'fixed',
       top: '20px',
-      right: '20px',
+      right: window.innerWidth <= 768 ? '10px' : '20px',
       zIndex: 1001,
       display: 'flex',
       flexDirection: 'column',
@@ -259,16 +279,14 @@ const Dashboard = ({ onLogout }) => {
     notification: {
       background: 'linear-gradient(135deg, #4CAF50, #45a049)',
       color: 'white',
-      padding: '12px 16px',
+      padding: isMobile ? '10px 12px' : '12px 16px',
       borderRadius: '10px',
       boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-      fontSize: '0.9rem',
+      fontSize: isMobile ? '0.8rem' : '0.9rem',
       animation: 'slideInRight 0.3s ease-out',
-      maxWidth: '300px'
+      maxWidth: isMobile ? '250px' : '300px'
     }
   };
-
-  const [showDashboard, setShowDashboard] = useState(false);
 
   // Funkcija za ažuriranje statistika
   const refreshStats = () => {

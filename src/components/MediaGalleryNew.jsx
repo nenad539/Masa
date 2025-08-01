@@ -9,22 +9,22 @@ const MediaGalleryNew = () => {
 
   // Jednostavni niz slika i video fajlova - proverio sam da ovi fajlovi postoje
   const mediaFiles = [
-    { src: '/Masa/media/1.jpg', type: 'image', caption: 'Naša prva večernja magija 💖' },
-    { src: '/Masa/media/2.jpg', type: 'image', caption: 'Ti si moja zvezda u noći ⭐' },
-    { src: '/Masa/media/3.jpg', type: 'image', caption: 'Svaki trenutak s tobom je poseban ✨' },
-    { src: '/Masa/media/4.jpg', type: 'image', caption: 'Moja prekrasna ljubav 🌹' },
-    { src: '/Masa/media/5.jpg', type: 'image', caption: 'Naša prva digitalna uspomena 📱' },
-    { src: '/Masa/media/6.jpg', type: 'image', caption: 'Ti si moja radost 😊' },
-    { src: '/Masa/media/7.jpg', type: 'image', caption: 'Osmeh koji pokreće moj dan ☀️' },
-    { src: '/Masa/media/8.jpg', type: 'image', caption: 'Moje srce kuca samo za tebe 💓' },
-    { src: '/Masa/media/9.jpg', type: 'image', caption: 'Ti si moj celi svet 🌍' },
-    { src: '/Masa/media/10.jpg', type: 'image', caption: 'Volim tvoj pogled 👀' },
-    { src: '/Masa/media/11.jpg', type: 'image', caption: 'Bez tebe ništa nije isto 💔' },
-    { src: '/Masa/media/12.jpg', type: 'image', caption: 'Ti si moja sreća 🍀' },
-    { src: '/Masa/media/13.jpg', type: 'image', caption: 'Moja ljubav je beskrajna ♾️' },
-    { src: '/Masa/media/14.jpg', type: 'image', caption: 'Ti si razlog mog smeha 😄' },
-    { src: '/Masa/media/15.jpg', type: 'image', caption: 'Moja zauvek i uvek 💍' },
-    { src: '/Masa/media/16.mp4', type: 'video', caption: 'Naš posebni trenutak koji ću čuvati zauvek 🎥' }
+    { src: '/media/1.jpg', type: 'image', caption: 'Naša prva večernja magija 💖' },
+    { src: '/media/2.jpg', type: 'image', caption: 'Ti si moja zvezda u noći ⭐' },
+    { src: '/media/3.jpg', type: 'image', caption: 'Svaki trenutak s tobom je poseban ✨' },
+    { src: '/media/4.jpg', type: 'image', caption: 'Moja prekrasna ljubav 🌹' },
+    { src: '/media/5.jpg', type: 'image', caption: 'Naša prva digitalna uspomena 📱' },
+    { src: '/media/6.jpg', type: 'image', caption: 'Ti si moja radost 😊' },
+    { src: '/media/7.jpg', type: 'image', caption: 'Osmeh koji pokreće moj dan ☀️' },
+    { src: '/media/8.jpg', type: 'image', caption: 'Moje srce kuca samo za tebe 💓' },
+    { src: '/media/9.jpg', type: 'image', caption: 'Ti si moj celi svet 🌍' },
+    { src: '/media/10.jpg', type: 'image', caption: 'Volim tvoj pogled 👀' },
+    { src: '/media/11.jpg', type: 'image', caption: 'Bez tebe ništa nije isto 💔' },
+    { src: '/media/12.jpg', type: 'image', caption: 'Ti si moja sreća 🍀' },
+    { src: '/media/13.jpg', type: 'image', caption: 'Moja ljubav je beskrajna ♾️' },
+    { src: '/media/14.jpg', type: 'image', caption: 'Ti si razlog mog smeha 😄' },
+    { src: '/media/15.jpg', type: 'image', caption: 'Moja zauvek i uvek 💍' },
+    { src: '/media/16.mp4', type: 'video', caption: 'Naš posebni trenutak koji ću čuvati zauvek 🎥' }
   ];
 
   useEffect(() => {
