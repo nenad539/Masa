@@ -1,20 +1,16 @@
 // Servis za autentifikaciju korisnika
 const USERS = {
-  nenad: {
-    username: 'nenad',
-    password: 'nenad539',
-    displayName: 'Nenad',
-    whatsappNumber: '+382 067 266 002',
-    avatar: '👨',
-    id: 'user_nenad'
+  stefan: {
+    username: 'stefan',
+    password: 'stefan123',
+    displayName: 'Stefan',
+    id: 'user_stefan'
   },
-  masa: {
-    username: 'mala masa',
-    password: 'masa',
-    displayName: 'Mala Masa 💖',
-    whatsappNumber: '+382 068 392 397',
-    avatar: '👩',
-    id: 'user_masa'
+  tanja: {
+    username: 'tanja',
+    password: 'tanja',
+    displayName: 'Tanja 💖',
+    id: 'user_tanja'
   }
 };
 
@@ -23,13 +19,11 @@ export const login = (username, password) => {
   const user = Object.values(USERS).find(u => 
     u.username.toLowerCase() === username.toLowerCase() && u.password === password
   );
-  
   if (user) {
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('isLoggedIn', 'true');
     return { success: true, user };
   }
-  
   return { success: false, error: 'Pogrešno korisničko ime ili lozinka' };
 };
 
@@ -58,7 +52,7 @@ export const getPartner = () => {
   const currentUser = getCurrentUser();
   if (!currentUser) return null;
   
-  const partnerId = currentUser.id === 'user_nenad' ? 'user_masa' : 'user_nenad';
+  const partnerId = currentUser.id === 'user_stefan' ? 'user_tanja' : 'user_stefan';
   return Object.values(USERS).find(u => u.id === partnerId);
 };
 

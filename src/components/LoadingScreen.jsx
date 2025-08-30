@@ -43,7 +43,7 @@ const LoadingScreen = ({ onLoadingComplete, herName = "ljubavi" }) => {
         WebkitTextFillColor: 'transparent',
         backgroundClip: 'text'
       }}>
-        Za Moju Mašu 🤎
+  Za Moju Tanju 💙
       </h1>
       <div className="loading-message">
         {messages[messageIndex]}

@@ -124,7 +124,7 @@ function App() {
               Ti si moja sreća, moja radost i moja zauvijek. Jedva čekam dan kada će udaljenost biti samo uspomena, 
               a ja ću te moći zagrljiti svaki dan.
               <br/><br/>
-              -Nenad🤎
+              -Stefan💙
             </p>
             <div style={{ 
               fontSize: '2rem', 

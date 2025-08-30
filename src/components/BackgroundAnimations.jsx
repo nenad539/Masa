@@ -4,7 +4,7 @@ const BackgroundAnimations = () => {
   const [hearts, setHearts] = useState([]);
   const [sparkles, setSparkles] = useState([]);
 
-  const heartEmojis = ['💖', '💕', '💗', '💓', '🤎', '❤️', '💝', '💞', '💘'];
+  const heartEmojis = ['💖', '💕', '💗', '💓', '💙', '❤️', '💝', '💞', '💘'];
 
   // Kreiranje floating hearts - POBOLJŠANO
   useEffect(() => {

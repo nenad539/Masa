@@ -4,7 +4,6 @@ import LoginScreen from './components/LoginScreen';
 import LoveButton from './components/LoveButton';
 import LoveReason from './components/LoveReason';
 import MediaGalleryNew from './components/MediaGalleryNew';
-import WhatsAppButtonNew from './components/WhatsAppButtonNew';
 import PrebuiltBackgroundHearts from './components/PrebuiltBackgroundHearts';
 import DailyCounter from './components/DailyCounter';
 import DailyMessage from './components/DailyMessage';
@@ -128,7 +127,7 @@ function App() {
                 fontSize: 'clamp(1.2rem, 4vw, 2rem)', 
                 marginBottom: '1rem' 
               }}>
-                Moja draga {currentUser?.displayName === 'Nenad' ? 'Mašo' : 'Mašo'} 💕
+                Moja draga {currentUser?.displayName === 'Stefan' ? 'Tanja' : 'Tanja'} 💕
               </h2>
               <p className="elegant-text" style={{ 
                 fontSize: '1.1rem', 
@@ -136,18 +135,18 @@ function App() {
                 maxWidth: '600px',
                 margin: '0 auto'
               }}>
-                {currentUser?.displayName === 'Nenad' ? 
+                {currentUser?.displayName === 'Stefan' ? 
                   'Svaki dan se sve više zaljubljujem u tebe. Kilometri između nas nisu ništa u odnosu na ljubav u mom srcu. Ti si moja sreća, moja radost i moja zauvijek. Jedva čekam dan kada će udaljenost biti samo uspomena, a ja ću te moći zagrljati svaki dan.' :
                   'Svaki dan se sve više zaljubljujem u tebe. Kilometri između nas nisu ništa u odnosu na ljubav u mom srcu. Ti si moja sreća, moja radost i moja zauvijek. Jedva čekam dan kada će udaljenost biti samo uspomena, a ja ću te moći zagrljati svaki dan.'
                 }
                 <br/><br/>
-                {currentUser?.displayName === 'Nenad' ? 
+                {currentUser?.displayName === 'Stefan' ? 
                   'Za najlepšu devojku na svetu!' : 
                   'Za najlepšu devojku na svetu!'
                 }
               </p>
               <small style={{ fontSize: '0.8rem', color: '#8b4559' }}>
-                {currentUser?.displayName === 'Nenad' ? '-Nenad🤎' : '-Nenad🤎'}
+                {currentUser?.displayName === 'Stefan' ? '-Stefan💙' : '-Stefan💙'}
               </small>
               <div style={{ 
                 fontSize: '2rem', 
@@ -159,7 +158,7 @@ function App() {
             </div>
           </div>
           
-          <WhatsAppButtonNew />
+          {/* WhatsAppButton removed */}
         </>
       )}
     </div>

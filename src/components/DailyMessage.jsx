@@ -10,7 +10,7 @@ const DailyMessage = () => {
     "Ti si razlog zašto se smejem svaki dan.",
     "Bez obzira na udaljenost, moja ljubav ka tebi samo raste.",
     "Ti si moja sreća i moja nada za bolje sutra.",
-    "Svaki trenutak s tobom je poklon koji čuvam u srcu."
+  "Svaki trenutak s tobom je poklon koji čuvam u srcu."
   ];
 
   const calculateTimeUntilNextMessage = () => {

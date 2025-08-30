@@ -13,9 +13,9 @@ const WhatsAppButton = () => {
   //   return null;
   // }
   
-  // Nenad šalje na +382 067 266 002, Masa šalje na +382 068 392 397
-  const phoneNumber = currentUser.id === 'user_nenad' ? '+382067266002' : '+382068392397';
-  const message = 'Volim te 🤎!'; // Braon srce emoji za WhatsApp
+  // Stefan šalje na +382 067 266 002, Tanja šalje na +382 068 392 397
+  const phoneNumber = currentUser.id === 'user_stefan' ? '+382067266002' : '+382068392397';
+  const message = 'Volim te 💙!'; // Plavo srce emoji za WhatsApp
   const [showTip, setShowTip] = useState(false);
 
   console.log('WhatsAppButton: Prikazujem button za korisnika:', currentUser.displayName);
@@ -107,7 +107,7 @@ const WhatsAppButton = () => {
       </div>
       {showTip && (
         <div className="whatsapp-tip">
-          Poruka je kopirana! 🤎<br />
+          Poruka je kopirana! 💙<br />
           <small>Samo je zalijepi u WhatsApp chat</small>
         </div>
       )}
@@ -117,7 +117,7 @@ const WhatsAppButton = () => {
         aria-label="Pošalji mi ljubav"
       >
         <span style={{ marginRight: '0.5rem' }}>Pošalji mi ljubav</span>
-        <span style={{ fontSize: '1.5rem' }}>🤎</span>
+  <span style={{ fontSize: '1.5rem' }}>💙</span>
       </button>
     </div>
   );

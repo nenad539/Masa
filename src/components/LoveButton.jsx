@@ -11,34 +11,15 @@ const LoveButton = ({ onReasonRevealed }) => {
   const [showHearts, setShowHearts] = useState(false);
 
   useEffect(() => {
-    // Reset any existing cooldown on component mount
+    // Reset all counters, messages, and cooldowns on mount
     setUserSpecificData('loveCooldown', '');
+    setUserSpecificData('currentReasonIndex', '0');
+    setUserSpecificData('totalLoveClicks', '0');
     setIsDisabled(false);
     setTimeLeft(0);
-    
-    // Check if there's a saved cooldown in localStorage (user-specific)
-    const savedCooldown = getUserSpecificData('loveCooldown');
-    const savedIndex = getUserSpecificData('currentReasonIndex');
-    
-    if (savedIndex) {
-      const index = parseInt(savedIndex);
-      setCurrentReasonIndex(index);
-      // Prati trenutnu poruku ljubavi
-      trackCurrentLoveMessage(index);
-    }
-
-    if (savedCooldown) {
-      const cooldownEnd = new Date(savedCooldown);
-      const now = new Date();
-      
-      if (cooldownEnd > now) {
-        const remaining = Math.ceil((cooldownEnd - now) / 1000);
-        setIsDisabled(true);
-        setTimeLeft(remaining);
-        // Prati timer status
-        trackTimerStatus(remaining, true);
-      }
-    }
+    setCurrentReasonIndex(0);
+    // Optionally clear all localStorage for a full reset:
+    // localStorage.clear();
   }, []);
 
   // Timer countdown effect
@@ -157,7 +138,7 @@ const LoveButton = ({ onReasonRevealed }) => {
 
   return (
     <div className="love-section">
-      <h1 className="romantic-heading">Za Moju Mašu 🤎</h1>
+  <h1 className="romantic-heading">Za Moju Tanju 💙</h1>
       
       {/* Jutarnje/večernje poruke direktno ispod h1 */}
       <TimeBasedGreeting />

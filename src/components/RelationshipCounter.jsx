@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const RelationshipCounter = () => {
-  const [daysTogether, setDaysTogether] = useState(4);
-
-  useEffect(() => {
-    // Početak veze - računam da je 27. jul 2025 bio dan 1
-    const startDate = new Date('2025-07-27');
-    const today = new Date();
-    
-    // Računa razliku u danima
-    const timeDiff = today - startDate;
-    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1; // +1 jer prvi dan je dan 1
-    
-    setDaysTogether(daysDiff);
-  }, []);
+  const [daysTogether] = useState(84);
 
   return (
     <div style={{
@@ -35,16 +23,10 @@ const RelationshipCounter = () => {
     }}>
       <div style={{
         fontWeight: '600',
-        marginBottom: '0.2rem'
+        marginBottom: '0.2rem',
+        color: '#174ea6' // dark blue
       }}>
-        💕 Dan {daysTogether}
-      </div>
-      <div style={{
-        fontSize: 'clamp(0.6rem, 1.8vw, 0.75rem)',
-        color: '#8b4559',
-        fontWeight: '500'
-      }}>
-        u vezi
+        💙 Dana u vezi: {daysTogether}
       </div>
     </div>
   );
