@@ -211,7 +211,7 @@ const LoginScreen = ({ onLogin }) => {
       </div>
 
       <div style={styles.loginCard} className="login-card">
-        <h1 style={styles.title}>Ljubavna prica Mase i Nenada</h1>
+        <h1 style={styles.title}>Ljubavna prica Tanje i Stefana</h1>
         <p style={styles.subtitle}>Ulogujte se da biste pristupili 💕</p>
 
         <div style={styles.hearts}>💖 💝 💖</div>
